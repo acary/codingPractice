@@ -20,15 +20,13 @@ public class LList implements List {    // LList class
             head = new Link(item, null);
             tail = head;
             current = head;
-        } else {
-
-            while (current.next() != null) {
-                current = current.next();
-            }
-            if (current.next() == null) {
-                current.setNext(new Link(item, null));
-            }
-            if (current == tail) {      // If current is tail, update tail
+        } else {                        // Otherwise, insert after current
+            Link newLink = new Link(item, null);    // Create new link
+            current.setNext(newLink);               // Set current link's next to new link
+            tail = newLink;                         // Set tail to new link
+            current = current.next();               // Set current to new link
+            
+            if (tail == current) {
                 tail = current.next();
             }
         }
@@ -36,11 +34,12 @@ public class LList implements List {    // LList class
 
     // Insert Object at end of list
     public void append(Object item) {
-        if (tail == null) {
-            tail = new Link(item, null); // Create new link
-        } else {
-            tail.setNext(new Link(item, null));
-            tail = tail.next();
+        Link newLink = new Link(item, null);    // Create new link
+        current.setNext(newLink);               // Set current link's next to new link
+        tail = newLink;                         // Set tail to new link
+        current = current.next();               // Set current to new link    
+        if (tail == current) {
+            tail = current.next();
         }
     }
 
@@ -125,7 +124,7 @@ public class LList implements List {    // LList class
 
     // Return true if current is within list
     public boolean isInList() {
-        return (current != null) && (current.next() != null);
+        return (current != null) && (current.next() != null) || (current == tail);
     }
 
     // Print out the list's elements
@@ -135,9 +134,12 @@ public class LList implements List {    // LList class
         }
         else {
             System.out.print("( ");
-            for (setFirst(); isInList(); next()) {
-                System.out.print(currValue() + " ");
-            }
+            do {
+                for (setFirst(); isInList(); next()) {
+                    System.out.print(currValue() + "->" + current.next().element() + " ");
+                }
+            } while (current.next() != null);
+            System.out.print(currValue() + "->" + null + " ");
             System.out.println(")");
         }
     }

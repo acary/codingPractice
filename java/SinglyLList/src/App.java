@@ -6,6 +6,8 @@ public class App {
         list.insert(3);
         list.insert(5);
         list.insert(7);
+        list.insert(11);
+        list.append(13);
         list.print();
         list.length();
     }
